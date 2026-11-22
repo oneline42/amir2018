@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>فيديو أنيق</title>
+<style>
+  @font-face { font-family: "Amiri"; font-weight: 700; src: url(fonts/amiri-arabic-700-normal.woff2); }
+  @font-face { font-family: "ReemKufi"; src: url(fonts/reem-kufi-arabic-500-normal.woff2); }
+  @font-face { font-family: "ReemKufi"; src: url(fonts/reem-kufi-latin-500-normal.woff2); unicode-range: U+0000-00FF; }
+  @font-face { font-family: "Cormorant"; font-weight: 300; src: url(fonts/cormorant-garamond-latin-300-normal.woff2); }
+  @font-face { font-family: "Cormorant"; font-weight: 300; font-style: italic; src: url(fonts/cormorant-garamond-latin-300-italic.woff2); }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; object-fit: contain; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+const W = 1920, H = 1080, DURATION = 15;
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const off = document.createElement('canvas'); off.width = W; off.height = H;
+const octx = off.getContext('2d');
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+// visibility envelope: fade in over [a,b], hold, fade out over [c,d]
+const env = (t, a, b, c, d) => Math.min(easeOut(prog(t, a, b)), 1 - easeInOut(prog(t, c, d)));
+
+// deterministic random
+let seed = 20261122;
+const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+
+const particles = Array.from({ length: 160 }, () => ({
+  x: rnd() * W, y: rnd() * H, r: .6 + rnd() * 2.2,
+  vx: (rnd() - .5) * 14, vy: -6 - rnd() * 18,
+  ph: rnd() * Math.PI * 2, tw: .6 + rnd() * 1.6, depth: .3 + rnd() * .7
+}));
+
+function goldGradient(c, x0, y0, x1, y1) {
+  const g = c.createLinearGradient(x0, y0, x1, y1);
+  g.addColorStop(0, '#8a6a2f');
+  g.addColorStop(.3, '#e9cf8f');
+  g.addColorStop(.5, '#fff3d1');
+  g.addColorStop(.7, '#d9b46a');
+  g.addColorStop(1, '#7c5d27');
+  return g;
+}
+
+function background(t) {
+  const g = ctx.createRadialGradient(W / 2, H * .48, 0, W / 2, H * .5, W * .75);
+  g.addColorStop(0, '#16141c');
+  g.addColorStop(.55, '#0a090d');
+  g.addColorStop(1, '#030304');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // slow, soft warm glow that breathes
+  const a = .10 + .05 * Math.sin(t * .8);
+  const glow = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, 620);
+  glow.addColorStop(0, `rgba(214,174,96,${a})`);
+  glow.addColorStop(1, 'rgba(214,174,96,0)');
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+}
+
+function dust(t, alpha) {
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (const p of particles) {
+    const x = ((p.x + p.vx * t * p.depth) % W + W) % W;
+    const y = ((p.y + p.vy * t * p.depth) % H + H) % H;
+    const tw = .35 + .65 * (.5 + .5 * Math.sin(t * p.tw * 2 + p.ph));
+    const a = alpha * tw * p.depth * .9;
+    const r = p.r * 4;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(255,236,190,${a})`);
+    g.addColorStop(.3, `rgba(226,186,110,${a * .45})`);
+    g.addColorStop(1, 'rgba(226,186,110,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// thin gold line that draws outward from the centre
+function goldLine(y, halfLen, p, alpha) {
+  if (p <= 0 || alpha <= 0) return;
+  const L = halfLen * easeInOut(p);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  const g = ctx.createLinearGradient(W / 2 - L, 0, W / 2 + L, 0);
+  g.addColorStop(0, 'rgba(217,180,106,0)');
+  g.addColorStop(.5, 'rgba(255,238,200,1)');
+  g.addColorStop(1, 'rgba(217,180,106,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(W / 2 - L, y - .75, 2 * L, 1.5);
+  // centre diamond
+  const s = 7 * easeOut(p);
+  ctx.translate(W / 2, y); ctx.rotate(Math.PI / 4);
+  ctx.fillStyle = '#f3dca2';
+  ctx.fillRect(-s / 2, -s / 2, s, s);
+  ctx.restore();
+}
+
+// text with gold fill + travelling light sweep, rendered on an offscreen layer
+function shinyText(text, font, x, y, alpha, sweep, blur = 0, rise = 0) {
+  if (alpha <= 0) return;
+  octx.clearRect(0, 0, W, H);
+  octx.save();
+  octx.font = font; octx.textAlign = 'center'; octx.textBaseline = 'middle';
+  octx.direction = /[؀-ۿ]/.test(text) ? 'rtl' : 'ltr';
+  const m = octx.measureText(text);
+  const w = m.width;
+  octx.fillStyle = goldGradient(octx, x - w / 2, y - 80, x + w / 2, y + 80);
+  octx.fillText(text, x, y + rise);
+  // light sweep
+  if (sweep > 0 && sweep < 1) {
+    const sx = x - w / 2 - 300 + (w + 600) * sweep;
+    const sg = octx.createLinearGradient(sx - 160, 0, sx + 160, 0);
+    sg.addColorStop(0, 'rgba(255,255,255,0)');
+    sg.addColorStop(.5, 'rgba(255,255,245,.85)');
+    sg.addColorStop(1, 'rgba(255,255,255,0)');
+    octx.globalCompositeOperation = 'source-atop';
+    octx.fillStyle = sg; octx.fillRect(0, 0, W, H);
+  }
+  octx.restore();
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  if (blur > .2) ctx.filter = `blur(${blur}px)`;
+  ctx.shadowColor = 'rgba(230,190,110,.35)'; ctx.shadowBlur = 30;
+  ctx.drawImage(off, 0, 0);
+  ctx.restore();
+}
+
+function plainText(text, font, x, y, color, alpha, spacing = 0) {
+  if (alpha <= 0) return;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.font = font; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = color;
+  if (spacing) ctx.letterSpacing = spacing + 'px';
+  ctx.direction = /[؀-ۿ]/.test(text) ? 'rtl' : 'ltr';
+  ctx.fillText(text, x, y);
+  ctx.restore();
+}
+
+// ornamental ring for the closing emblem
+function emblem(t, p, alpha) {
+  if (alpha <= 0) return;
+  const cx = W / 2, cy = H / 2 - 40;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = goldGradient(ctx, cx - 260, cy - 260, cx + 260, cy + 260);
+  // outer ring draws on
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 250, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * easeInOut(prog(p, 0, .6)));
+  ctx.stroke();
+  // inner ring, opposite direction
+  ctx.lineWidth = .8;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 232, Math.PI / 2, Math.PI / 2 - Math.PI * 2 * easeInOut(prog(p, .1, .7)), true);
+  ctx.stroke();
+  // 8 tick diamonds rotating slowly
+  const dp = easeOut(prog(p, .45, .85));
+  ctx.translate(cx, cy); ctx.rotate(t * .05);
+  for (let i = 0; i < 8; i++) {
+    ctx.save();
+    ctx.rotate(i * Math.PI / 4);
+    ctx.translate(0, -250);
+    ctx.rotate(Math.PI / 4);
+    const s = (i % 2 ? 5 : 9) * dp;
+    ctx.fillStyle = '#f0d699';
+    ctx.fillRect(-s / 2, -s / 2, s, s);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function vignette() {
+  const g = ctx.createRadialGradient(W / 2, H / 2, H * .35, W / 2, H / 2, W * .72);
+  g.addColorStop(0, 'rgba(0,0,0,0)');
+  g.addColorStop(1, 'rgba(0,0,0,.75)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+
+// ---------- timeline ----------
+function renderFrame(t) {
+  ctx.clearRect(0, 0, W, H);
+  background(t);
+  dust(t, env(t, 0, 2.5, 13.5, 15));
+
+  // Scene 1 — the quote  (0.8s → 7.4s)
+  const s1 = env(t, 1.6, 3.2, 6.6, 7.4);
+  goldLine(H / 2 + 105, 520, prog(t, .8, 2.6), env(t, .8, 1.2, 6.6, 7.4));
+  shinyText('البساطة هي قمة الأناقة', '700 118px Amiri', W / 2, H / 2 - 20,
+            s1, prog(t, 3.2, 5.0), 14 * (1 - easeOut(prog(t, 1.6, 3.2))),
+            24 * (1 - easeOut(prog(t, 1.6, 3.4))));
+  plainText('Simplicity is the ultimate sophistication', 'italic 300 40px Cormorant',
+            W / 2, H / 2 + 170, '#cbb88f', env(t, 3.0, 4.4, 6.4, 7.2) * .9, 2);
+
+  // Scene 2 — the emblem  (7.6s → 15s)
+  const s2 = env(t, 7.6, 8.4, 13.8, 14.8);
+  emblem(t, prog(t, 7.6, 10.2), s2);
+  shinyText('تصميم أنيق', '500 104px ReemKufi', W / 2, H / 2 - 52,
+            env(t, 8.8, 10.2, 13.8, 14.8), prog(t, 10.4, 12.0),
+            10 * (1 - easeOut(prog(t, 8.8, 10.2))));
+  plainText('ELEGANCE · 2026', '500 20px ReemKufi', W / 2, H / 2 + 50, '#d8c08a',
+            env(t, 10.0, 11.2, 13.8, 14.8), 9);
+  goldLine(H / 2 + 300, 300, prog(t, 10.2, 11.6), env(t, 10.2, 10.6, 13.8, 14.8));
+
+  vignette();
+  // final fade to black
+  ctx.fillStyle = `rgba(0,0,0,${easeInOut(prog(t, 14.3, 15))})`;
+  ctx.fillRect(0, 0, W, H);
+}
+
+window.DURATION = DURATION;
+window.renderFrame = renderFrame;
+window.ready = document.fonts.load('700 50px Amiri', 'ب')
+  .then(() => Promise.all([
+    document.fonts.load('500 50px ReemKufi', 'ت'),
+    document.fonts.load('500 50px ReemKufi', 'E'),
+    document.fonts.load('300 50px Cormorant', 'S'),
+    document.fonts.load('italic 300 50px Cormorant', 'S')]));
+
+// live preview when opened in a browser (?render disables it)
+if (!location.search.includes('render')) {
+  window.ready.then(() => {
+    const t0 = performance.now();
+    (function loop(now) {
+      renderFrame(((now - t0) / 1000) % DURATION);
+      requestAnimationFrame(loop);
+    })(t0);
+  });
+}
+</script>
+</body>
+</html>
