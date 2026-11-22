@@ -4,4 +4,5 @@
 
 - `post.html`: التصميم. عدّل النصوص ورقم الهاتف من هنا.
 - `render.js`: يصدّر التصميم إلى `khalif-cars-post.png`. شغّله بالأمر `node render.js` (يحتاج إلى Playwright).
+- `hero.jpg`: صورة السيارة والشعار.
 - `fonts/`: خطوط Cairo و Reem Kufi، برخصة SIL OFL.

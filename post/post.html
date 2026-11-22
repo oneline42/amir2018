@@ -39,13 +39,13 @@ header{position:absolute;top:110px;left:0;right:0;text-align:center}
 .sep i:last-child{transform:scaleX(-1)}
 .sep b{width:12px;height:12px;background:var(--gold);transform:rotate(45deg)}
 
-.headline{position:absolute;top:640px;left:0;right:0;text-align:center}
-.headline h2{font-weight:900;font-size:78px;line-height:1.25}
-.headline p{font-size:36px;color:#c9ccd3;margin-top:10px}
+.headline{position:absolute;top:1035px;left:0;right:0;text-align:center}
+.headline h2{font-weight:900;font-size:66px;line-height:1.25}
+.headline p{font-size:32px;color:#c9ccd3;margin-top:10px}
 
 .car{position:absolute;top:850px;left:40px;width:1000px}
 
-.services{position:absolute;top:1310px;left:90px;right:90px;display:flex;gap:26px}
+.services{position:absolute;top:1250px;left:90px;right:90px;display:flex;gap:26px}
 .card{flex:1;padding:34px 10px 28px;text-align:center;border-radius:26px;
   background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
   border:1.5px solid rgba(217,180,106,.35)}
@@ -53,21 +53,26 @@ header{position:absolute;top:110px;left:0;right:0;text-align:center}
 .card h3{font-size:36px;font-weight:700;margin-top:10px}
 .card span{font-size:24px;color:#aeb2bb}
 
-.tags{position:absolute;top:1625px;left:0;right:0;text-align:center;font-size:40px;font-weight:700;color:#e9e9ec;word-spacing:6px}
+.tags{position:absolute;top:1560px;left:0;right:0;text-align:center;font-size:40px;font-weight:700;color:#e9e9ec;word-spacing:6px}
 .tags em{font-style:normal;color:var(--gold);margin:0 16px}
 
-.cta{position:absolute;top:1725px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:30px}
+.cta{position:absolute;top:1680px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:30px}
 .btn{padding:20px 54px;border-radius:999px;font-size:42px;font-weight:900;color:#1a1306;
   background:linear-gradient(180deg,var(--gold2),var(--gold) 55%,var(--gold3));
   box-shadow:0 12px 40px rgba(217,180,106,.35)}
 .phone{display:flex;align-items:center;gap:14px;font-family:CairoL,Cairo;font-size:44px;font-weight:700;direction:ltr}
 .phone svg{width:46px;height:46px}
+
+.hero{position:absolute;top:0;left:0;width:1080px;height:1033px;object-fit:cover;-webkit-mask-image:linear-gradient(180deg,#000 74%,transparent 100%);mask-image:linear-gradient(180deg,#000 74%,transparent 100%)}
+.brand-ar{position:absolute;top:880px;left:0;right:0;text-align:center;font-family:Kufi;font-size:104px;line-height:1.2;filter:drop-shadow(0 6px 24px rgba(217,180,106,.3))}
 </style>
 </head>
 <body>
 <div class="bg"></div>
 <div class="lines"></div>
+<img class="hero" src="hero.jpg" alt="">
 <div class="frame"></div>
+<div class="brand-ar"><span class="gold">خليف للسيارات</span></div>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -77,96 +82,12 @@ header{position:absolute;top:110px;left:0;right:0;text-align:center}
   </defs>
 </svg>
 
-<header>
-  <svg class="emblem" viewBox="0 0 150 150">
-    <circle cx="75" cy="75" r="70" fill="none" stroke="url(#g)" stroke-width="3"/>
-    <circle cx="75" cy="75" r="60" fill="none" stroke="url(#g)" stroke-width="1" opacity=".6"/>
-    <path d="M28 92 L36 78 Q42 70 54 68 L66 56 Q72 52 84 52 L96 52 Q106 54 114 66 L122 70 Q128 72 128 80 L128 92 Z" fill="url(#g)"/>
-    <circle cx="50" cy="94" r="9" fill="#07090d" stroke="#d9b46a" stroke-width="4"/>
-    <circle cx="106" cy="94" r="9" fill="#07090d" stroke="#d9b46a" stroke-width="4"/>
-    <path d="M62 66 L72 58 Q76 56 84 56 L86 66 Z M90 56 L96 56 Q102 58 108 66 L92 66 Z" fill="#07090d"/>
-  </svg>
-  <div class="brand gold">خليف للسيارات</div>
-  <div class="latin">KHALIF CARS</div>
-  <div class="sep"><i></i><b></b><i></i></div>
-</header>
 
 <section class="headline">
   <h2><span class="gold">سيارتك القادمة</span> بانتظارك</h2>
   <p>أفضل العروض على السيارات الجديدة والمستعملة</p>
 </section>
 
-<svg class="car" viewBox="0 0 1000 420">
-  <defs>
-    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3a3f49"/><stop offset=".35" stop-color="#1b1e24"/>
-      <stop offset=".62" stop-color="#0d0f13"/><stop offset="1" stop-color="#22252c"/>
-    </linearGradient>
-    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#f6e3b0" stop-opacity=".55"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5a6372"/><stop offset="1" stop-color="#0c0e12"/>
-    </linearGradient>
-    <radialGradient id="rim">
-      <stop offset="0" stop-color="#f6e3b0"/><stop offset=".55" stop-color="#b99252"/><stop offset="1" stop-color="#5d4520"/>
-    </radialGradient>
-    <radialGradient id="beam" cx="0" cy=".5" r="1">
-      <stop offset="0" stop-color="#fff6dc" stop-opacity=".55"/><stop offset="1" stop-color="#fff6dc" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="floor" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#d9b46a" stop-opacity=".35"/><stop offset="1" stop-color="#d9b46a" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
-    <g id="wheel">
-      <circle r="66" fill="#0a0b0e"/>
-      <circle r="62" fill="#15171b" stroke="#2a2d33" stroke-width="3"/>
-      <circle r="46" fill="url(#rim)"/>
-      <g fill="#15171b">
-        <path d="M0-8 L-7-42 L7-42 Z"/><path d="M0-8 L-7-42 L7-42 Z" transform="rotate(72)"/>
-        <path d="M0-8 L-7-42 L7-42 Z" transform="rotate(144)"/><path d="M0-8 L-7-42 L7-42 Z" transform="rotate(216)"/>
-        <path d="M0-8 L-7-42 L7-42 Z" transform="rotate(288)"/>
-      </g>
-      <circle r="11" fill="#2a2d33" stroke="#d9b46a" stroke-width="2"/>
-    </g>
-  </defs>
-
-  <!-- floor glow & shadow -->
-  <ellipse cx="500" cy="352" rx="480" ry="40" fill="url(#floor)"/>
-  <ellipse cx="480" cy="340" rx="420" ry="16" fill="#000" opacity=".85" filter="url(#blur)"/>
-
-  <!-- headlight beam -->
-  <path d="M905 200 L1000 150 L1000 270 Z" fill="url(#beam)" filter="url(#blur)"/>
-
-  <g transform="translate(20,40)">
-    <!-- body -->
-    <path d="M70 262 L58 222 Q56 196 88 186 L230 168 Q330 96 450 86 L590 86
-             Q672 92 752 156 L862 176 Q908 186 914 222 L914 250 Q910 268 888 270
-             L790 270 A80 80 0 0 0 630 270 L318 270 A80 80 0 0 0 158 270 L96 270 Q74 270 70 262 Z"
-          fill="url(#body)" stroke="#d9b46a" stroke-opacity=".55" stroke-width="2"/>
-    <!-- glass -->
-    <path d="M252 170 Q338 108 452 100 L578 100 Q646 106 712 156 Z" fill="url(#glass)"/>
-    <path d="M488 100 L478 170" stroke="#0d0f13" stroke-width="10"/>
-    <path d="M290 150 Q360 112 440 106" stroke="#fff" stroke-opacity=".18" stroke-width="5" fill="none"/>
-    <!-- character line & shine -->
-    <path d="M96 214 Q480 196 900 210" stroke="url(#shine)" stroke-width="3" fill="none"/>
-    <path d="M240 176 L740 160" stroke="url(#shine)" stroke-width="2" fill="none"/>
-    <!-- door lines/handles -->
-    <path d="M478 172 L472 262 M318 180 L322 262" stroke="#000" stroke-opacity=".55" stroke-width="2"/>
-    <rect x="404" y="196" width="40" height="6" rx="3" fill="#d9b46a" opacity=".8"/>
-    <rect x="566" y="192" width="40" height="6" rx="3" fill="#d9b46a" opacity=".8"/>
-    <!-- mirror -->
-    <path d="M706 158 L732 150 Q740 152 738 162 L716 166 Z" fill="#15171b" stroke="#d9b46a" stroke-opacity=".5"/>
-    <!-- lights -->
-    <path d="M868 190 L910 202 L908 214 L872 208 Z" fill="#fff6dc"/>
-    <path d="M60 206 L96 196 L98 212 L62 220 Z" fill="#e0303a"/>
-    <path d="M60 206 L96 196 L98 212 L62 220 Z" fill="#ff3b46" filter="url(#blur)" opacity=".8"/>
-    <!-- wheels -->
-    <use href="#wheel" x="238" y="270"/>
-    <use href="#wheel" x="710" y="270"/>
-  </g>
-</svg>
 
 <section class="services">
   <div class="card">
