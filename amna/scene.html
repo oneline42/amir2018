@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>آمنة للدعاية والإعلان</title>
+<style>
+@font-face{font-family:Alx;font-weight:500;src:url(fonts/alexandria-arabic-500-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:Alx;font-weight:800;src:url(fonts/alexandria-arabic-800-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200F}
+@font-face{font-family:Alx;font-weight:500;src:url(fonts/alexandria-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Alx;font-weight:800;src:url(fonts/alexandria-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+html,body{margin:0;background:#000}
+body{display:flex;justify-content:center;align-items:flex-start}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Alx,sans-serif;color:#fff;
+  background:radial-gradient(ellipse 120% 80% at 50% 40%,#231a1c 0%,#140f11 55%,#0a0708 100%);transform-origin:top center}
+#stage *{box-sizing:border-box}
+.a{position:absolute;left:0;top:0;white-space:nowrap}
+.r{color:#ff2d36}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+/* background */
+#grid{position:absolute;inset:0;opacity:.07;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:90px 90px;
+  -webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 20%,transparent 75%)}
+.glow{position:absolute;left:0;top:0;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(220,30,45,.33),rgba(220,30,45,0) 65%)}
+.shape{position:absolute;left:0;top:0;border:3px solid rgba(255,255,255,.18)}
+/* common ui */
+.pill{background:linear-gradient(180deg,#2b2426,#1a1516);border:2px solid rgba(255,255,255,.13);border-radius:26px;box-shadow:0 18px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
+.chip{display:inline-block;background:#f5f2ef;color:#141011;border-radius:20px;padding:4px 30px 14px;font-weight:800;font-size:84px;box-shadow:0 8px 0 #b9b1ad,0 18px 30px rgba(0,0,0,.45)}
+.chip.red{background:#ec2430;color:#fff;box-shadow:0 8px 0 #93121a,0 18px 30px rgba(0,0,0,.45)}
+.title{font-weight:800;font-size:150px;line-height:1.1;text-align:center;text-shadow:0 10px 40px rgba(0,0,0,.6)}
+#cap{position:absolute;left:0;top:1470px;width:1080px;text-align:center;font-size:46px;font-weight:500;text-shadow:0 4px 18px rgba(0,0,0,.8)}
+#cap.dk span.w{background:rgba(10,7,8,.85);padding:4px 26px 14px;border-radius:16px}
+#cap .box{display:inline-block;background:#ec2430;color:#fff;padding:2px 26px 12px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+/* brand + phone badge */
+#brand{text-align:center;line-height:1}
+#brand .lg{font-size:44px;font-weight:800;padding:6px 14px 12px;position:relative}
+#brand .lg:before,#brand .lg:after{content:"";position:absolute;width:14px;height:14px;border-color:#ff2d36;border-style:solid}
+#brand .lg:before{top:0;right:0;border-width:4px 4px 0 0}
+#brand .lg:after{bottom:0;left:0;border-width:0 0 4px 4px}
+#brand .sm{font-size:17px;opacity:.75;margin-top:6px}
+#tel{display:flex;align-items:center;gap:12px;background:rgba(15,11,12,.72);border:2px solid rgba(255,255,255,.16);border-radius:40px;padding:10px 22px 10px 14px;font-size:34px;font-weight:800;backdrop-filter:blur(6px)}
+#tel .ic{width:46px;height:46px;border-radius:50%;background:#ec2430;display:flex;align-items:center;justify-content:center}
+/* orb */
+#orb{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff9a9a,#ff2630 45%,#b80c14 100%);box-shadow:0 0 50px 22px rgba(255,35,45,.45),0 0 120px 60px rgba(255,35,45,.18)}
+#orbRing{width:130px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,.35)}
+/* s1 */
+#inp{width:840px;height:118px;display:flex;align-items:center;padding:0 40px 0 22px;gap:20px;font-size:44px;border-radius:60px}
+#inp .txt{flex:1;text-align:right;font-weight:500}
+#inp .cur{display:inline-block;width:4px;height:52px;background:#ff2d36;vertical-align:middle;margin-right:4px}
+#inp .send{width:76px;height:76px;border-radius:50%;background:#f5f2ef;display:flex;align-items:center;justify-content:center}
+#ul{height:10px;background:#ff2d36;border-radius:6px;transform-origin:right center}
+/* s2 */
+.item{width:500px;height:112px;display:flex;align-items:center;gap:22px;padding:0 26px;font-size:46px;font-weight:800}
+.item .num{width:58px;height:58px;border-radius:50%;background:#ec2430;font-size:32px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 22px rgba(255,40,50,.7)}
+.item .lbl{flex:1}
+.item svg{width:54px;height:54px}
+#line2{width:4px;background:linear-gradient(#ff2d36,rgba(255,45,54,.15));border-radius:3px;transform-origin:top center}
+/* s3 */
+.frame{width:250px;height:320px;border-radius:26px;border:3px solid rgba(255,255,255,.22);background:rgba(255,255,255,.03);overflow:hidden}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.corner{width:60px;height:60px;border-color:#ff2d36;border-style:solid}
+#chips{display:flex;gap:22px;direction:rtl}
+#chips .chip{transform-origin:center bottom}
+/* s4 */
+.bar{width:46px;border-radius:24px;transform-origin:bottom center}
+.lab{font-size:36px;font-weight:800;padding:12px 26px 18px;border-radius:20px}
+/* s5 themes */
+.theme{position:absolute;inset:0;overflow:hidden}
+.ttl{font-weight:800;font-size:150px}
+#phone{width:470px;height:960px;border-radius:70px;background:#0c0c0e;padding:16px;box-shadow:0 0 0 3px #2c2c30,0 50px 90px rgba(0,0,0,.55),inset 0 0 0 2px #444}
+#screen{width:100%;height:100%;border-radius:56px;overflow:hidden;position:relative;background:#000}
+#notch{position:absolute;top:18px;left:50%;width:130px;height:36px;margin-left:-65px;border-radius:20px;background:#000;z-index:5}
+.poster{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:80px 34px 40px;gap:20px;text-align:center}
+.poster .plogo{font-weight:800;font-size:30px;border:3px solid currentColor;border-radius:12px;padding:2px 16px 8px}
+.poster .ph{width:100%;height:330px;border-radius:30px;overflow:hidden}
+.poster .ph img{width:100%;height:100%;object-fit:cover}
+.poster .h1{font-size:74px;font-weight:800;line-height:1.05}
+.poster .pc{font-size:46px;font-weight:800;padding:2px 22px 12px;border-radius:14px}
+.poster .sub{font-size:24px;opacity:.75;white-space:normal}
+.poster .btn{margin-top:auto;font-size:28px;font-weight:800;padding:12px 28px 18px;border-radius:40px}
+/* s6 */
+.word{font-weight:800;font-size:170px}
+#laser{width:1080px;height:4px;background:linear-gradient(90deg,transparent,#ff2d36 30%,#ff2d36 70%,transparent);box-shadow:0 0 18px #ff2d36}
+#sel{font-weight:800;font-size:130px;padding:0 40px 30px;border:4px solid #ec2430}
+#sel i{position:absolute;width:24px;height:24px;background:#fff;border:4px solid #ec2430}
+#tip{background:#f5f2ef;color:#141011;font-weight:800;font-size:44px;padding:10px 34px 20px;border-radius:22px}
+#tip:before{content:"";position:absolute;top:-16px;left:50%;margin-left:-16px;border:16px solid transparent;border-top:0;border-bottom-color:#f5f2ef}
+#sendTo{font-size:36px;font-weight:800;padding:12px 30px 18px;border-radius:40px}
+/* s7 grid */
+#gridc{width:1080px;height:1920px;transform-origin:50% 50%}
+.card{position:absolute;width:320px;height:440px;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 60px rgba(0,0,0,.5);white-space:normal}
+.card .cimg{height:250px;margin:16px 16px 0;border-radius:20px;overflow:hidden}
+.card .cimg img{width:100%;height:100%;object-fit:cover}
+.card .ct{font-weight:800;font-size:40px;line-height:1.15;padding:18px 22px 0;text-align:right}
+.card .cb{margin-top:auto;padding:0 22px 20px;font-size:20px;font-weight:800;opacity:.7;text-align:left}
+#gcenter{position:absolute;width:320px;height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+#gcenter .g1{font-size:42px;font-weight:800;line-height:1.1}
+#gcenter .g2{font-size:56px;font-weight:800;color:#ff2d36;line-height:1.1;margin-bottom:10px}
+#gcenter .gc{background:#f5f2ef;color:#141011;font-weight:800;font-size:22px;padding:6px 18px 12px;border-radius:14px}
+/* s8 */
+#logo{font-weight:800;font-size:230px;line-height:1;padding:10px 60px 50px}
+#logo i{position:absolute;width:70px;height:70px;border-style:solid}
+#sub8{font-size:80px;font-weight:800}
+#cta{display:flex;align-items:center;gap:24px;background:#ec2430;border-radius:80px;padding:22px 50px 22px 30px;font-size:74px;font-weight:800;box-shadow:0 10px 0 #93121a,0 30px 70px rgba(236,36,48,.45)}
+#cta .ic{width:96px;height:96px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+#pulse{width:640px;height:150px;border-radius:90px;border:4px solid #ff2d36}
+#small8{font-size:40px;font-weight:500;opacity:.85}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+  <div id="bg"></div>
+  <div id="themes"></div>
+
+  <!-- S1 -->
+  <div id="t1" class="a title">فكرة وحدة</div>
+  <div id="t1b" class="a title" style="font-size:96px">وحملة <span class="r">إعلانية كاملة</span></div>
+  <div id="ul" class="a" style="width:560px"></div>
+  <div id="inp" class="a pill">
+    <div class="txt"><span id="typed"></span><span class="cur" id="cur"></span></div>
+    <div class="send"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#141011" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+
+  <!-- S2 -->
+  <div id="line2" class="a"></div>
+  <div id="items"></div>
+
+  <!-- S3 -->
+  <div id="frames"></div>
+  <div id="chips" class="a"><span class="chip">إعلانك</span><span class="chip">صار</span><span class="chip red">أقوى</span></div>
+
+  <!-- S4 -->
+  <div id="bars"></div>
+  <svg id="wave" class="a" width="1080" height="200" style="overflow:visible"><path id="wavep" fill="none" stroke="#ff2d36" stroke-width="4" opacity=".8"/></svg>
+
+  <!-- S5 -->
+  <div id="themeTitle" class="a ttl"></div>
+  <div id="phone" class="a"><div id="screen"><div id="notch"></div><div id="posters"></div></div></div>
+
+  <!-- S6 -->
+  <div id="laser" class="a"></div>
+  <div id="words"></div>
+  <div id="sendTo" class="a pill">أرسلها لـ <span class="r">آمنة</span></div>
+  <div id="sel" class="a">فكرتك<i style="top:-14px;right:-14px"></i><i style="top:-14px;left:-14px"></i><i style="bottom:-14px;right:-14px"></i><i style="bottom:-14px;left:-14px"></i></div>
+  <div id="tip" class="a">نحوّلها لإعلان</div>
+
+  <!-- S7 -->
+  <div id="gridc" class="a"></div>
+
+  <!-- S8 -->
+  <div id="logo" class="a">آمنة<i style="top:0;right:0;border-width:12px 12px 0 0;border-color:#fff"></i><i style="bottom:0;left:0;border-width:0 0 12px 12px;border-color:#fff"></i><i style="top:0;left:0;border-width:12px 0 0 12px;border-color:#ff2d36"></i><i style="bottom:0;right:0;border-width:0 12px 12px 0;border-color:#ff2d36"></i></div>
+  <div id="sub8" class="a">للدعاية <span class="r">والإعلان</span></div>
+  <div id="pulse" class="a"></div>
+  <div id="cta" class="a"><span class="ic"><svg width="56" height="56" viewBox="0 0 24 24"><path fill="#ec2430" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></span><span class="ltr">0592077770</span></div>
+  <div id="small8" class="a">اتصل الآن واطلب حملتك الإعلانية</div>
+
+  <!-- global overlays -->
+  <div id="orbRing" class="a"></div>
+  <div id="orb" class="a"></div>
+  <div id="brand" class="a"><div class="lg">آمنة</div><div class="sm">للدعاية والإعلان</div></div>
+  <div id="tel" class="a"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></span><span class="ltr">0592077770</span></div>
+  <div id="cap"></div>
+  <div id="fade"></div>
+</div>
+
+<script>
+const DURATION = 37;
+window.DURATION = DURATION;
+const $ = id => document.getElementById(id);
+const C = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => C((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const eo = x => 1 - Math.pow(1 - x, 3);
+const ei = x => x * x * x;
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eb = x => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+function T(e, o) {
+  const { x = 540, y = 960, s = 1, sx = 1, sy = 1, r = 0, op = 1, b = 0, pre = '' } = o;
+  e.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) ${pre} rotate(${r}deg) scale(${s * sx},${s * sy})`;
+  e.style.opacity = op;
+  e.style.filter = b > .1 ? `blur(${b}px)` : 'none';
+  e.style.visibility = op <= .002 ? 'hidden' : 'visible';
+}
+const hide = e => { e.style.visibility = 'hidden'; e.style.opacity = 0; };
+const mk = (parent, cls, html = '') => { const e = document.createElement('div'); e.className = cls; e.innerHTML = html; parent.appendChild(e); return e; };
+// in/out envelope: fade in over [a,a+fi], out over [b-fo,b]
+const win = (t, a, b, fi = .3, fo = .3) => Math.min(P(t, a, a + fi), 1 - P(t, b - fo, b));
+
+/* ---------- background ---------- */
+const bg = $('bg');
+const glows = [mk(bg, 'glow'), mk(bg, 'glow')];
+const shapes = [];
+for (let i = 0; i < 26; i++) {
+  const s = mk(bg, 'shape'), k = i % 3, z = 14 + rnd() * 26;
+  s.style.width = s.style.height = z + 'px';
+  if (k === 0) s.style.borderRadius = '50%';
+  if (k === 2) { s.style.border = 'none'; s.style.width = s.style.height = '0'; s.style.borderLeft = `${z / 2}px solid transparent`; s.style.borderRight = `${z / 2}px solid transparent`; s.style.borderBottom = `${z}px solid rgba(255,255,255,.12)`; }
+  shapes.push({ e: s, x: rnd() * 1080, y: rnd() * 1920, vx: (rnd() - .5) * 18, vy: -6 - rnd() * 16, r: rnd() * 360, vr: (rnd() - .5) * 40, o: .35 + rnd() * .5 });
+}
+function drawBg(t) {
+  T(glows[0], { x: 540 + 260 * Math.sin(t * .35), y: 760 + 200 * Math.cos(t * .27), op: 1 });
+  T(glows[1], { x: 540 - 300 * Math.sin(t * .22 + 1), y: 1400 + 160 * Math.sin(t * .31), s: .8, op: .8 });
+  for (const s of shapes) {
+    const y = ((s.y + s.vy * t) % 1920 + 1920) % 1920, x = ((s.x + s.vx * t) % 1080 + 1080) % 1080;
+    T(s.e, { x, y, r: s.r + s.vr * t, op: s.o });
+  }
+}
+
+/* ---------- orb path ---------- */
+const orbK = [[0, 760, 860, 0], [0.4, 760, 860, 1], [2, 640, 960, 1], [4.2, 600, 860, 1], [5.8, 820, 760, 1], [7.4, 820, 1080, 1], [8.4, 540, 760, 1], [10.2, 540, 1160, 1], [11.6, 620, 560, 1], [14.6, 760, 600, 1], [15.0, 540, 1300, 0],
+  [21.8, 540, 960, 0], [22.1, 980, 960, 1], [25.5, 120, 960, 1], [26.4, 760, 1300, 1], [27.4, 760, 1300, 1], [27.8, 540, 380, 0], [31.6, 540, 380, 0], [32.6, 540, 1700, 0], [37, 540, 1700, 0]];
+function orbAt(t) {
+  let i = 0; while (i < orbK.length - 2 && t > orbK[i + 1][0]) i++;
+  const a = orbK[i], b = orbK[i + 1], u = eio(P(t, a[0], b[0]));
+  return [lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u)];
+}
+
+/* ---------- captions ---------- */
+const caps = [
+  [0.3, 2.2, 'شوف... فكرة وحدة'], [2.2, 4.2, 'وحملة <span class="r">إعلانية كاملة</span>'],
+  [4.3, 6.3, 'ونرتّب لك <span class="r">الخطة</span>'], [6.3, 8.4, 'كل خطوة بمكانها'],
+  [8.5, 10.3, 'صورك تدخل <span class="r">باحتراف</span>'], [10.3, 11.9, 'والعناوين تطلع <span class="r">كلمة كلمة</span>'],
+  [12.0, 13.4, '<span class="r">صوت المعلّق</span>'], [13.4, 14.9, 'والموسيقى، والكابشن'],
+  [15.0, 16.2, 'واختار الستايل <span class="r">اللي يعجبك</span>'],
+  [16.25, 17.6, '<span class="box">جريء</span>'], [17.65, 19.0, '<span class="box">ورقي</span>'], [19.05, 20.4, '<span class="box">ليلي</span>'], [20.45, 21.6, '<span class="box">نظيف</span>'],
+  [22.0, 23.3, 'بدون <span class="r">تعب</span>'], [23.3, 24.5, 'بدون <span class="r">تأخير</span>'], [24.5, 25.6, 'بدون <span class="r">تعقيد</span>'],
+  [25.7, 27.4, 'بس قول لنا <span class="r">فكرتك</span>'], [27.6, 31.6, '<span class="w">وكل اللي تحتاجه <span class="r">بمكان واحد</span></span>'],
+  [32.4, 36.6, 'اتصل الآن <span class="r ltr">0592077770</span>']];
+const cap = $('cap'); let capIdx = -2;
+function drawCap(t) {
+  const i = caps.findIndex(c => t >= c[0] && t < c[1]);
+  cap.className = (t > 27.5 && t < 31.7) ? 'dk' : '';
+  if (i !== capIdx) { cap.innerHTML = i >= 0 ? caps[i][2] : ''; capIdx = i; }
+  if (i < 0) { cap.style.opacity = 0; return; }
+  const [a, b] = caps[i], u = eo(P(t, a, a + .25)), v = P(t, b - .12, b);
+  cap.style.opacity = u * (1 - v);
+  cap.style.transform = `translateY(${(1 - u) * 26}px) scale(${.92 + .08 * u})`;
+}
+
+/* ---------- S1 ---------- */
+const TYPED = 'إعلان لمطعمي الجديد';
+function s1(t) {
+  if (t > 4.5) { ['t1','t1b','ul','inp'].forEach(id => hide($(id))); return; }
+  const out = eio(P(t, 3.8, 4.4));
+  const up = -out * 1100;
+  const lift = eo(P(t, 2.1, 2.6));
+  const ti = eb(P(t, .15, .75));
+  T($('t1'), { x: 540, y: 560 - lift * 90 + up, s: .6 + .4 * ti, op: P(t, .15, .45), b: (1 - P(t, .15, .6)) * 14 });
+  const b2 = eo(P(t, 2.2, 2.75));
+  T($('t1b'), { x: 540, y: 640 + (1 - b2) * 60 + up, op: b2, b: (1 - b2) * 10 });
+  T($('ul'), { x: 540, y: 715 + up, op: P(t, 2.6, 2.7), pre: '' });
+  $('ul').style.transform += ` scaleX(${eo(P(t, 2.6, 3.1))})`;
+  const ib = eo(P(t, .3, .8));
+  T($('inp'), { x: 540, y: 1120 + (1 - ib) * 80 + up * .9, op: ib });
+  const n = Math.floor(C((t - .9) / 1.3) * TYPED.length);
+  $('typed').textContent = TYPED.slice(0, n);
+  $('cur').style.opacity = (Math.floor(t * 3) % 2 === 0 || (t > .9 && t < 2.2)) ? 1 : 0;
+}
+
+/* ---------- S2 ---------- */
+const ITEMS = ['الفكرة', 'التصميم', 'التصوير', 'النشر'];
+const itemsEl = $('items');
+const items = ITEMS.map((l, i) => mk(itemsEl, 'a pill item', `<span class="num">${i + 1}</span><span class="lbl">${l}</span><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#ff2d36" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="30" stroke-dashoffset="30"/></svg>`));
+const scatter = [[240, 220, -14], [-200, 380, 12], [180, 560, -8], [-160, 740, 10]];
+function s2(t) {
+  if (t < 4 || t > 8.8) { items.forEach(hide); hide($('line2')); return; }
+  const exit = eio(P(t, 7.9, 8.6));
+  items.forEach((e, i) => {
+    const fy = 620 + i * 180, fx = 620;
+    const fly = eo(P(t, 4.2 + i * .18, 5.2 + i * .18));
+    const settle = eio(P(t, 5.6 + i * .1, 6.4 + i * .1));
+    const sc = scatter[i];
+    const x = lerp(fx + sc[0], fx, settle), y = lerp(fy + sc[1] + (1 - fly) * 1100, fy, settle);
+    const rot = lerp(sc[2], 0, settle);
+    T(e, { x, y: y - exit * 1200, r: rot, op: fly * (1 - exit), pre: `perspective(900px) rotateX(${(1 - settle) * 48}deg)`, s: lerp(.82, 1, settle) });
+    e.querySelector('path').style.strokeDashoffset = 30 * (1 - eo(P(t, 6.6 + i * .25, 6.95 + i * .25)));
+  });
+  const L = eo(P(t, 6.2, 7.2));
+  const l2 = $('line2'); l2.style.height = (560 * L) + 'px';
+  T(l2, { x: 320, y: 620 + 280 - (1 - L) * 280 - exit * 1200, op: L * (1 - exit) });
+}
+
+/* ---------- S3 ---------- */
+const PICS = ['img/camera.jpg', 'img/palette.jpg', 'img/analytics.jpg'];
+const framesEl = $('frames');
+const frames = PICS.map(src => { const f = mk(framesEl, 'a frame', `<img src="${src}">`); return f; });
+const corners = [0, 1, 2, 3].map(i => { const c = mk(framesEl, 'a corner'); c.style.borderWidth = ['5px 5px 0 0', '5px 0 0 5px', '0 5px 5px 0', '0 0 5px 5px'][i]; return c; });
+function s3(t) {
+  if (t < 8 || t > 15.2) { frames.forEach(hide); corners.forEach(hide); hide($('chips')); return; }
+  const up = eio(P(t, 10.0, 10.6)), out = eio(P(t, 11.7, 12.3));
+  const gy = lerp(1000, 640, up) - out * 1300, gs = lerp(1, .9, up);
+  frames.forEach((f, i) => {
+    const xi = [810, 540, 270][i];
+    const appear = eo(P(t, 8.2 + i * .08, 8.6 + i * .08));
+    T(f, { x: 540 + (xi - 540) * gs, y: gy, s: gs * (.85 + .15 * appear), op: appear });
+    const im = f.querySelector('img'), d = eb(P(t, 8.8 + i * .3, 9.3 + i * .3));
+    im.style.opacity = P(t, 8.8 + i * .3, 8.95 + i * .3);
+    im.style.transform = `scale(${1.5 - .5 * d})`;
+  });
+  const cA = eo(P(t, 9.6, 10.0));
+  const hw = 430 * gs + (1 - cA) * 60, hh = 200 * gs + (1 - cA) * 40;
+  [[1, -1], [-1, -1], [1, 1], [-1, 1]].forEach(([sx, sy], i) => T(corners[i], { x: 540 + sx * hw, y: gy + sy * hh, op: cA * (1 - out) }));
+  const ch = $('chips');
+  const cUp = eio(P(t, 11.7, 12.2));
+  T(ch, { x: 540, y: lerp(1020, 300, cUp), s: lerp(1, .78, cUp), op: P(t, 10.4, 10.5) * (1 - P(t, 14.6, 15)) });
+  [...ch.children].forEach((c, i) => { const p = eb(P(t, 10.5 + i * .3, 10.85 + i * .3)); c.style.transform = `scale(${p}) rotate(${(1 - p) * (i - 1) * 12}deg)`; c.style.opacity = C(p * 2); });
+}
+
+/* ---------- S4 ---------- */
+const barsEl = $('bars');
+const BH = [760, 700, 640, 580, 520, 460, 400, 340, 280, 230];
+const bars = BH.map(() => mk(barsEl, 'a bar'));
+const labs = ['صوت المعلّق', 'الموسيقى', 'الكابشن'].map(l => mk(barsEl, 'a pill lab', l));
+function mix(c1, c2, u) { return `rgb(${c1.map((v, i) => Math.round(lerp(v, c2[i], u))).join(',')})`; }
+function s4(t) {
+  if (t < 11.8 || t > 15.2) { bars.forEach(hide); labs.forEach(hide); hide($('wave')); return; }
+  const ex = eio(P(t, 14.6, 15.1));
+  const hp = (t - 12.2) * 3.2;
+  bars.forEach((b, i) => {
+    const rise = eo(P(t, 12.0 + i * .06, 12.6 + i * .06));
+    const h = BH[i] * rise * (1 - ex) * (.86 + .14 * Math.sin(t * 7 + i * .9));
+    b.style.height = Math.max(h, 1) + 'px';
+    const d = C(1 - Math.abs(i - (hp % 13)) / 1.6);
+    const base = mix([255, 255, 255], [248, 196, 196], i / 9);
+    b.style.background = d > 0 ? mix(base.match(/\d+/g).map(Number), [236, 36, 48], d) : base;
+    b.style.boxShadow = d > .3 ? `0 0 ${40 * d}px rgba(255,40,50,${.7 * d})` : 'none';
+    T(b, { x: 280 + i * 58, y: 1380 - h / 2, op: rise > 0 ? 1 : 0 });
+  });
+  labs.forEach((l, i) => { const p = eb(P(t, 12.4 + i * .7, 12.8 + i * .7)); T(l, { x: 830, y: 540 + i * 100, s: p, op: C(p) * (1 - ex) }); });
+  let d = ''; for (let x = 120; x <= 960; x += 12) { const y = 1430 + Math.sin(x * .03 + t * 8) * 16 * Math.sin(x * .004) * (1 - ex); d += (x === 120 ? 'M' : 'L') + x + ' ' + y.toFixed(1); }
+  $('wavep').setAttribute('d', d);
+  T($('wave'), { x: 540, y: 960, op: P(t, 12.3, 12.8) * (1 - ex) });
+}
+
+/* ---------- S5 themes + phone ---------- */
+const POSTERS = [
+  { bg: '#f7c812', fg: '#111', chip: ['#111', '#f7c812'], img: 'img/camera.jpg', btn: ['#111', '#f7c812'] },
+  { bg: '#f7c812', fg: '#111', chip: ['#111', '#f7c812'], img: 'img/creative.jpg', btn: ['#ec2430', '#fff'] },
+  { bg: '#f3ede3', fg: '#1a1a1a', chip: ['#ec2430', '#fff'], img: 'img/palette.jpg', btn: ['#1a1a1a', '#f3ede3'] },
+  { bg: '#12131f', fg: '#fff', chip: ['#f7c812', '#111'], img: 'img/lens.jpg', btn: ['#f7c812', '#111'] },
+  { bg: '#ffffff', fg: '#111', chip: ['#2563eb', '#fff'], img: 'img/analytics.jpg', btn: ['#111', '#fff'] }];
+const posters = POSTERS.map(p => mk($('posters'), 'poster', `<div class="plogo">آمنة</div><div class="ph"><img src="${p.img}"></div><div class="h1">إعلانك</div><div class="pc" style="background:${p.chip[0]};color:${p.chip[1]}">يوصل أبعد</div><div class="sub">تصميم • تصوير • موشن • سوشيال ميديا</div><div class="btn" style="background:${p.btn[0]};color:${p.btn[1]}">اتصل: <span class="ltr">0592077770</span></div>`));
+posters.forEach((e, i) => { e.style.background = POSTERS[i].bg; e.style.color = POSTERS[i].fg; });
+const THEMES = [
+  { t: 16.2, name: 'جريء', col: '#111' }, { t: 17.6, name: 'ورقي', col: '#1a1a1a' },
+  { t: 19.0, name: 'ليلي', col: '#fff' }, { t: 20.4, name: 'نظيف', col: '#111' }];
+const themesEl = $('themes');
+const tl = THEMES.map(() => mk(themesEl, 'theme'));
+// bold
+tl[0].style.background = 'repeating-linear-gradient(45deg,#f7c812 0 70px,#efbd06 70px 140px)';
+tl[0].innerHTML = `<div class="a" style="width:1000px;height:1000px;border-radius:50%;border:14px solid #111;transform:translate(40px,460px)"></div>
+<div class="a" style="width:420px;height:420px;transform:translate(-40px,640px);background:radial-gradient(circle,#111 38%,transparent 41%) 0 0/36px 36px;-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 70%)"></div>
+<div class="a" style="width:460px;height:460px;transform:translate(700px,1240px);background:radial-gradient(circle,#111 38%,transparent 41%) 0 0/36px 36px;-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 70%)"></div>`;
+// paper
+tl[1].style.background = 'radial-gradient(circle at 50% 50%,#f8f4ec,#e9e1d3)';
+const conf = []; const CC = ['#3b82f6', '#ec2430', '#f7c812', '#1f2937', '#10b981', '#94a3b8'];
+for (let i = 0; i < 26; i++) { const c = mk(tl[1], 'a'); c.style.width = 26 + rnd() * 30 + 'px'; c.style.height = 14 + rnd() * 18 + 'px'; c.style.background = CC[i % CC.length]; c.style.borderRadius = '4px'; conf.push({ e: c, x: rnd() * 1080, y: rnd() * 1920, r: rnd() * 360, v: 30 + rnd() * 60 }); }
+// night
+tl[2].style.background = 'radial-gradient(circle at 50% 50%,#1d1f3a,#0b0c18 70%)';
+tl[2].innerHTML = `<div class="a" style="width:900px;height:900px;border-radius:50%;border:3px solid rgba(255,45,54,.6);box-shadow:0 0 60px rgba(255,45,54,.35);transform:translate(90px,510px)"></div>`;
+for (let i = 0; i < 40; i++) { const s = mk(tl[2], 'a'); const z = 2 + rnd() * 4; s.style.cssText += `width:${z}px;height:${z}px;border-radius:50%;background:#fff;opacity:${.3 + rnd() * .6};transform:translate(${rnd() * 1080}px,${rnd() * 1920}px)`; }
+// clean
+tl[3].style.background = '#f6f7fb';
+tl[3].innerHTML = `<div class="a" style="width:980px;height:980px;border-radius:50%;border:4px solid #a5b8f5;transform:translate(50px,470px)"></div>`;
+for (let i = 0; i < 16; i++) { const s = mk(tl[3], 'a', '+'); s.style.cssText += `color:#4f6ef0;font-size:${40 + rnd() * 30}px;font-weight:500;transform:translate(${60 + rnd() * 960}px,${200 + rnd() * 1500}px)`; }
+
+function s5(t) {
+  const on = t > 14.8 && t < 22.3;
+  const darkBadge = t > 16.3 && t < 21.6;
+  if (!on) { tl.forEach(hide); hide($('phone')); hide($('themeTitle')); }
+  else {
+    const fadeAll = 1 - P(t, 21.5, 21.9);
+    tl.forEach((l, i) => {
+      const a = THEMES[i].t; const u = eio(P(t, a, a + .55));
+      l.style.visibility = t >= a ? 'visible' : 'hidden';
+      l.style.opacity = fadeAll;
+      l.style.clipPath = `circle(${u * 1250}px at 540px 960px)`;
+    });
+    conf.forEach(c => { c.e.style.transform = `translate(${c.x}px,${(c.y + c.v * t) % 1920}px) rotate(${c.r + t * 60}deg)`; });
+    // phone
+    const enter = eo(P(t, 15.0, 15.7)), exit = eio(P(t, 21.5, 22.2));
+    let bump = 0; THEMES.forEach(th => { const q = P(t, th.t, th.t + .5); bump += Math.sin(q * Math.PI) * .06; });
+    T($('phone'), { x: 540, y: 980 + (1 - enter) * 900 - exit * 1300 + Math.sin(t * 2) * 10, s: (.72 + .28 * enter) * (1 - bump) * 0.92, op: C(enter * 2), pre: `perspective(1400px) rotateY(${Math.sin(t * 1.3) * 6}deg)` });
+    // posters
+    posters.forEach((p, i) => {
+      const a = i === 0 ? 15.6 : THEMES[i - 1].t;
+      const u = eio(P(t, a, a + .5));
+      p.style.visibility = t >= a ? 'visible' : 'hidden';
+      p.style.clipPath = i === 0 ? `inset(${(1 - u) * 100}% 0 0 0)` : `circle(${u * 130}% at 50% 50%)`;
+      p.querySelector('img').style.transform = `scale(${1.15 - .15 * u})`;
+    });
+    // theme title
+    let k = -1; THEMES.forEach((th, i) => { if (t >= th.t) k = i; });
+    const tt = $('themeTitle');
+    if (k >= 0 && t < 21.6) {
+      if (tt.textContent !== THEMES[k].name) tt.textContent = THEMES[k].name;
+      tt.style.color = THEMES[k].col;
+      const p = eb(P(t, THEMES[k].t + .15, THEMES[k].t + .55));
+      T(tt, { x: 540, y: 330, s: .6 + .4 * p, op: C(p * 2) * (1 - P(t, 21.4, 21.6)) });
+    } else hide(tt);
+  }
+  // badges adapt
+  $('brand').style.color = (darkBadge && t < 19.0 || t > 20.4 && t < 21.6) ? '#111' : '#fff';
+}
+
+/* ---------- S6 ---------- */
+const WORDS = [[22.0, 'بدون تعب'], [23.3, 'بدون تأخير'], [24.5, 'بدون تعقيد']];
+const wordsEl = $('words');
+const words = WORDS.map(([, w]) => [mk(wordsEl, 'a word', w), mk(wordsEl, 'a word', w), mk(wordsEl, 'a word', w)]);
+const sweep = u => u < .5 ? .5 - .5 * Math.pow(1 - 2 * u, 3) : .5 + .5 * Math.pow(2 * u - 1, 3);
+function s6(t) {
+  T($('laser'), { x: 540, y: 1000, op: win(t, 21.9, 25.7, .3, .3) * .9 });
+  WORDS.forEach(([a], i) => {
+    const D = i === 2 ? 1.2 : 1.3, u = P(t, a, a + D);
+    const xf = v => 540 + 1250 * (1 - 2 * sweep(v));
+    const x = xf(u), vel = (xf(C(u + .02)) - xf(C(u - .02)));
+    const on = t > a && t < a + D;
+    const [m, g1, g2] = words[i];
+    if (!on) { hide(m); hide(g1); hide(g2); return; }
+    T(m, { x, y: 960, op: 1, b: Math.min(Math.abs(vel) * .25, 26), sx: 1 + Math.min(Math.abs(vel) * .004, .25) });
+    T(g1, { x: x - vel * 2.5, y: 960, op: .18, b: 8 });
+    T(g2, { x: x - vel * 5, y: 960, op: .08, b: 14 });
+  });
+  // send-to + selection
+  const st = eb(P(t, 25.6, 26.0)), ex = eio(P(t, 27.2, 27.7));
+  T($('sendTo'), { x: 540, y: 330 - ex * 400, s: st, op: C(st) * (1 - ex) });
+  const sp = eo(P(t, 25.7, 26.2)), grow = eb(P(t, 26.5, 26.9));
+  T($('sel'), { x: 540, y: 900 - ex * 200, s: (.6 + .4 * sp) * (1 + .3 * grow), op: sp * (1 - ex), b: (1 - sp) * 10 });
+  const tp = eb(P(t, 26.0, 26.35));
+  T($('tip'), { x: 540, y: 1110 + grow * 60 + ex * 300, s: tp, op: C(tp) * (1 - ex) });
+}
+
+/* ---------- S7 grid ---------- */
+const CARDS = [
+  { bg: '#1c1617', fg: '#fff', img: 'img/team.jpg', t: 'حملتك تبدأ <span class="r">هنا</span>' },
+  { bg: '#f7c812', fg: '#111', img: 'img/camera.jpg', t: 'تصوير منتجات' },
+  { bg: '#f3ede3', fg: '#1a1a1a', img: 'img/palette.jpg', t: 'هوية بصرية' },
+  { bg: '#e9f6ef', fg: '#0f3d2b', img: 'img/sketch.jpg', t: 'من الفكرة للإعلان' },
+  null,
+  { bg: '#ffffff', fg: '#111', img: 'img/chart.jpg', t: 'نتائج تقدر <span class="r">تقيسها</span>' },
+  { bg: '#f3ede3', fg: '#1a1a1a', img: 'img/draw.jpg', t: 'تصميم شعارات' },
+  { bg: '#1c1617', fg: '#fff', img: 'img/projector.jpg', t: 'فيديو <span class="r">موشن</span>' },
+  { bg: '#ec2430', fg: '#fff', img: 'img/colors.jpg', t: 'إعلانات سوشيال' }];
+const gridc = $('gridc');
+const cards = CARDS.map((c, i) => {
+  const x = 540 + ((i % 3) - 1) * 350 * -1, y = 960 + (Math.floor(i / 3) - 1) * 470;
+  let e;
+  if (!c) { e = mk(gridc, '', '<div class="g1">حملات إعلانية</div><div class="g2">متكاملة</div><div class="gc">تصميم إعلانات</div><div class="gc">تصوير احترافي</div><div class="gc">إدارة حسابات السوشيال</div>'); e.id = 'gcenter'; }
+  else { e = mk(gridc, 'card', `<div class="cimg"><img src="${c.img}"></div><div class="ct">${c.t}</div><div class="cb">آمنة</div>`); e.style.background = c.bg; e.style.color = c.fg; }
+  e.style.left = (x - 160) + 'px'; e.style.top = (y - 220) + 'px';
+  return e;
+});
+function s7(t) {
+  if (t < 27.2 || t > 32.2) { hide(gridc); return; }
+  const z = eio(P(t, 27.3, 28.4)), out = eio(P(t, 31.3, 31.9));
+  gridc.style.visibility = 'visible'; gridc.style.opacity = P(t, 27.3, 27.6) * (1 - out);
+  const s = lerp(2.3, .98, z) + (t - 28.4 > 0 ? (t - 28.4) * .02 : 0) + out * 1.2;
+  gridc.style.transform = `translate(0,${Math.sin(t * .8) * 8}px) rotate(${(1 - z) * -6}deg) scale(${s})`;
+  gridc.style.filter = z < .95 ? `blur(${(1 - z) * 8}px)` : 'none';
+  cards.forEach((c, i) => { if (i === 4) { const p = eb(P(t, 28.0, 28.5)); c.style.transform = `scale(${p})`; c.style.opacity = C(p); return; } const p = eo(P(t, 27.4 + i * .05, 28.2 + i * .05)); c.style.transform = `translateY(${(1 - p) * (i % 2 ? 160 : -160)}px)`; });
+}
+
+/* ---------- S8 end ---------- */
+function s8(t) {
+  if (t < 31.6) { ['logo', 'sub8', 'cta', 'pulse', 'small8'].forEach(id => hide($(id))); return; }
+  const l = eb(P(t, 31.8, 32.4));
+  T($('logo'), { x: 540, y: 700, s: .5 + .5 * l, op: C(l * 1.5), b: (1 - P(t, 31.8, 32.2)) * 18 });
+  const corners = $('logo').querySelectorAll('i'); const cp = 1 - eo(P(t, 32.0, 32.5));
+  corners.forEach((c, i) => { const dx = (i === 0 || i === 3) ? 1 : -1, dy = (i === 0 || i === 2) ? -1 : 1; c.style.transform = `translate(${dx * cp * 80}px,${dy * cp * 80}px)`; });
+  const s = eo(P(t, 32.3, 32.8));
+  T($('sub8'), { x: 540, y: 950 + (1 - s) * 50, op: s });
+  const c = eb(P(t, 32.7, 33.2)), pul = 1 + .03 * Math.sin(t * 6) * P(t, 33.2, 33.6);
+  T($('cta'), { x: 540, y: 1160, s: c * pul, op: C(c) });
+  const pp = ((t - 33.2) % 1.2) / 1.2;
+  T($('pulse'), { x: 540, y: 1160, s: 1 + pp * .35, op: t > 33.2 ? (1 - pp) * .7 : 0 });
+  const sm = eo(P(t, 33.2, 33.7));
+  T($('small8'), { x: 540, y: 1330, op: sm * .9 });
+}
+
+/* ---------- frame ---------- */
+function renderFrame(t) {
+  drawBg(t);
+  s1(t); s2(t); s3(t); s4(t); s5(t); s6(t); s7(t); s8(t);
+  const [ox, oy, oo] = orbAt(t);
+  const fl = 1 + .08 * Math.sin(t * 9);
+  T($('orb'), { x: ox, y: oy, s: fl, op: oo });
+  T($('orbRing'), { x: ox, y: oy + 40, op: oo * (.6 + .4 * Math.sin(t * 4)), s: 1 + .15 * Math.sin(t * 4) });
+  const endOn = P(t, 31.6, 32.0);
+  T($('brand'), { x: 130, y: 170, op: P(t, .2, .6) * (1 - endOn) });
+  T($('tel'), { x: 850, y: 1800, op: P(t, .4, .8) });
+  drawCap(t);
+  $('fade').style.opacity = P(t, DURATION - .6, DURATION) + (1 - P(t, 0, .25));
+}
+window.renderFrame = renderFrame;
+window.ready = Promise.all([document.fonts.ready, ...[...document.images].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; }))])
+  .then(() => Promise.all(['500', '800'].map(w => document.fonts.load(`${w} 40px Alx`, 'آمنة 059'))));
+
+if (!location.search.includes('render')) {
+  const fit = () => { const s = Math.min(innerWidth / 1080, innerHeight / 1920); $('stage').style.transform = `scale(${s})`; };
+  fit(); addEventListener('resize', fit);
+  let t0 = null; window.ready.then(() => requestAnimationFrame(function loop(ts) { if (t0 === null) t0 = ts; renderFrame(((ts - t0) / 1000) % DURATION); requestAnimationFrame(loop); }));
+} else renderFrame(0);
+</script>
+</body>
+</html>
